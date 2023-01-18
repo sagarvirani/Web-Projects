@@ -1,0 +1,24 @@
+{
+  "name": "web-projects",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sagarvirani/Web-Projects.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sagarvirani/Web-Projects/issues"
+  },
+  "homepage": "https://github.com/sagarvirani/Web-Projects#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
