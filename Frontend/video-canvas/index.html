@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        background: black;
+        color:#CCCCCC; 
+      }
+      canvas {
+        float: left;
+        border :1px solid #444444;
+        padding:10px;
+        margin: 10px;
+        background:white;
+        border-radius: 10px;
+      }
+      #video {
+        display: none;
+      }
+
+      .btn-img {
+        display: inline-block;
+      }
+    </style>
+  </head>
+
+  <body>
+      <video id="video">
+        <source src="media/video1.mp4">
+      </video>
+      <canvas id="canvas" width="400" height="300"></canvas>
+    <button class="btn-image" id="btn-rotate">Rotate</button>
+    <button class="btn-image" id="btn-left">Left</button>
+    <button class="btn-image" id="btn-right">Right</button>
+  <script type="text/javascript" src="processor.js"></script>
+  </body>
+</html>
