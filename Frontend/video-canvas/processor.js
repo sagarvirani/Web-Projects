@@ -1,4 +1,3 @@
-let animation_handle;
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 const video = document.querySelector("video");
@@ -7,16 +6,17 @@ const btn_left = document.getElementById("btn-left");
 const btn_right = document.getElementById("btn-right");
 const btn_reset = document.getElementById("btn-reset");
 const icon = btn_play_pause.querySelector("i");
+  
 
-video.addEventListener('loadeddata', video_load_callback);
-
-function video_load_callback() {
+video.addEventListener('loadeddata', ()=>{
     icon.classList.add('fa-play');
-    step();
-}
-function step() { // update the canvas when a video proceeds to next frame
+    updateCanvas();
+ 
+});
+
+function updateCanvas() { // update the canvas when a video proceeds to next frame
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    animation_handle = video.requestVideoFrameCallback(step);
+    video.requestVideoFrameCallback(updateCanvas);
 }
 
 btn_play_pause.addEventListener('click', ()=> {
@@ -31,7 +31,7 @@ btn_play_pause.addEventListener('click', ()=> {
         icon.classList.add('fa-play');
     }    
 });
-let video_remainingTime;
+
 btn_left.addEventListener('click', ()=> {
     if(video.play())
         video.pause();
@@ -60,11 +60,10 @@ btn_right.addEventListener('click', ()=> {
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 });
 
-
 btn_reset.addEventListener('click', ()=> {
     
-    video.currentTime = video.duration;
     video.pause();
+    video.currentTime = video.duration;
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 });
 
@@ -73,16 +72,32 @@ let oldY = 0;
 
 canvas.addEventListener('mousemove', (e)=> {
     if(e.clientX < oldX || e.clientY < oldY) {
-        console.log('left');
+        if(video.currentTime > 0.05){
+            video.currentTime = video.currentTime - 0.05;
+        } else {
+            video.loop = true;
+            video.currentTime = video.duration - 0.05;
+        }
+        console.log(video.currentTime);
+    //    console.log('left', e.clientX, e.clientY);
     }
     else {
-        console.log('right');
+        if(video.currentTime != video.duration){
+            video.currentTime = video.currentTime + 0.05;
+        } else {
+            video.loop = true;
+            video.currentTime = 0.05;
+        }
+        console.log(video.currentTime);
+        // console.log('right', e.clientX, e.clientY);
     }
     oldX = e.clientX;
     oldY = e.clientY;
     
 });
 
-canvas.addEventListener('mouseleave', (e)=> {
-    
-});
+// video.addEventListener("timeupdate", function() {
+//     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+//     requestAnimationFrame(updateCanvas);
+//   });
+
