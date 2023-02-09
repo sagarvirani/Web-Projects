@@ -52,12 +52,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
-  
   </head>
 
   <body>
       <video id="video">
-        <source src="media/video1.mp4" autoplay>
+        <source src="media/video1.mp4" 
+        autoplay="true" 
+        muted="muted">
       </video>
       <div class="container">
         <canvas id="canvas" width="400" height="300"></canvas>
@@ -66,6 +67,7 @@
           <button class="btn-image" id="btn-left"><i class="fa fa-chevron-left"></i></button>
           <button class="btn-image" id="btn-right"><i class="fa fa-chevron-right"></i></button>
           <button class="btn-image" id="btn-reset"><i class="fa fa-rotate-right"></i></button>
+          <input id="mouse-input" type="range" min="1" max="51" value="1" />
         </div>
       </div>
   <script type="text/javascript" src="processor.js"></script>

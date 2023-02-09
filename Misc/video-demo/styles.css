@@ -1,0 +1,45 @@
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video__wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  width: 90%;
+}
+.video__wrapper video {
+  width: 100%;
+  height: 100%;
+}
+.video__wrapper #progress {
+  position: absolute;
+  z-index: 10;
+  background: #0ebeff;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  left: 0;
+  bottom: -4px;
+  transform-origin: 0 0;
+}
+
+#cursor {
+  position: absolute;
+  z-index: 100;
+  mix-blend-mode: difference;
+  top: 0;
+  left: 0;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #ff3c41;
+}
