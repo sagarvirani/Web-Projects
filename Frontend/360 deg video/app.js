@@ -2,8 +2,8 @@
 ⚙️ Options
 --------------------*/
 const options = {
-  leftBound: '0.1', // => 10% of window width
-  rightBound: '0.9' // => 90% of window width
+  leftBound: '0.01', // => 1% of video width
+  rightBound: '0.99' // => 99% of video width
 };
 
 
@@ -40,8 +40,8 @@ const mouseMove = (e) => {
   const x = e.clientX || e.touches[0].clientX;
   const y = e.clientY || e.touches[0].clientY;
   TweenMax.to(time, 1, {
-    // Mouse catches progress from 10% to 90% of window width
-    frame: Math.min(video.duration - 0.5, Math.max(0, map(x, window.innerWidth * options.leftBound, window.innerWidth * options.rightBound, 0, video.duration))),
+    // Mouse catches progress from 1% to 99% of video width
+    frame: Math.min(video.duration - 0.5, Math.max(0, map(x, video.clientWidth * options.leftBound, video.clientWidth * options.rightBound, 0, video.duration))),
     ease: Power2.easeOut
   });
   //console.log(time.frame, video.currentTime);
@@ -61,9 +61,9 @@ const loop = setInterval(() => {
 /*--------------------
 ⚠️ Events
 --------------------*/
-window.addEventListener('mousemove', mouseMove);
-window.addEventListener('touchstart', mouseMove);
-window.addEventListener('touchmove', mouseMove);
+video.addEventListener('mousemove', mouseMove);
+video.addEventListener('touchstart', mouseMove);
+video.addEventListener('touchmove', mouseMove);
 
 
 video.addEventListener('loadeddata', ()=> {
