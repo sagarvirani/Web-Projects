@@ -37,6 +37,9 @@ const map = (num, in_min, in_max, out_min, out_max) => {
 --------------------*/
 const mouseMove = (e) => {
   flag = true;
+  if(video.play())
+      video.pause();
+      
   const x = e.clientX || e.touches[0].clientX;
   const y = e.clientY || e.touches[0].clientY;
   TweenMax.to(time, 1, {
