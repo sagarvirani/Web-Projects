@@ -1,10 +1,11 @@
-const imgPdf = document.getElementById('btn-download');
-  imgPdf.addEventListener('click', () => {
-    var imgData = canvas.toDataURL("image/jpeg", 1.0);
-    var pdf = new jsPDF();
-    pdf.addImage(imgData, 'JPEG', 0, 0);
-    pdf.save("card.pdf");
-    });
+// const imgPdf = document.getElementById('btn-download');
+//   imgPdf.addEventListener('click', () => {
+//     var imgData = canvas.toDataURL("image/jpeg", 1.0);
+   
+//     var pdf = new jsPDF();
+//     pdf.addImage(imgData, 'JPEG', 0, 0);
+//     pdf.save("card.pdf");
+//     });
 
 
 

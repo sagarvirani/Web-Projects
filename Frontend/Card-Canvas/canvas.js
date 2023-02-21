@@ -1,59 +1,116 @@
+//Constants
+const svgState = {};
+const bgUrl = 'images/card.jpg';
+const inputFile = document.getElementById('imgInput');
+const reader = new FileReader();
 
-//Code to load image by user in the card canvas
-const canvas = document.getElementById("card-canvas"); // Creates a canvas object
-const ctx = canvas.getContext("2d"); // Creates a contect object
-const imgInput = document.getElementById('imgInput');
-
-  imgInput.addEventListener('change', (e) => {
-    if(e.target.files) {
-        let imageFile = e.target.files[0]; //Gets the image file
-      var reader = new FileReader();
-      // console.log(imageFile);
-      if(imageFile) {
-      reader.readAsDataURL(imageFile);
-      reader.onloadend = (e) => {
-        var myImage = new Image(); // Creates image object
-        myImage.src = e.target.result; // Assigns converted image to image object
-        myImage.onload = () => {
-          ctx.drawImage(myImage,0,0); // Draws the image on canvas
-          //let imgData = canvas.toDataURL("image/jpeg",0.75); // Assigns image base64 string in jpeg format to a variable
-        }
-      }
-    }
+//Initialize the canvas
+const initCanvas = (id) => {
+  return new fabric.Canvas(id, {
+      width: 488,
+      height: 488
+  });
 }
-});
+
+//Set the background image in canvas
+const setBackground = (url, canvas) => {
+  fabric.Image.fromURL(url, (img) => {
+      canvas.backgroundImage = img;
+      canvas.renderAll();
+  });
+}
+
+//Clearing the canvas
+const clearCanvas = (canvas) => {
+  
+  canvas.getObjects().forEach((obj) => {
+      if(obj !== canvas.backgroundImage) {
+          canvas.remove(obj);
+      }
+  });
+}
+
+//Saving the canvas
+const saveCanvas = (canvas, state) => {
+  state.val = canvas.toSVG();
+  //sent the state to server with user info
+}
+
+//Restoring the canvas
+const restoreCanvas = (canvas, state) => {
+  if (state.val) {
+      fabric.loadSVGFromString(state.val, objects => {
+          //console.log(objects);
+          canvas.add(...objects);
+          canvas.requestRenderAll();
+      });
+  }
+  return canvas;
+}
+
+//Adding User Image to Card
+
+const imgAdded = () => {
+  const file = inputFile.files[0];
+  reader.readAsDataURL(file);
+  reader.addEventListener("load", () => {
+    fabric.Image.fromURL(reader.result, (img) => {
+      img.crossOrigin="anonymous";
+      clearCanvas(canvas);
+      canvas.add(img);
+      canvas.centerObject(img);
+      //saveCanvas(canvas, svgState);
+      canvas.requestRenderAll();
+    },
+    {
+      cornerColor: 'black',
+      scaleX:0.3,
+      scaleY:0.3,
+      selectable: 1
+    });
+    
+  });
+  
+}
+
+inputFile.addEventListener('change', imgAdded, false);
+
+
+//Generate PDF from the canvas
+function saveImage(e) {
+  this.href = canvas.toDataURL({
+      format: 'png',
+      quality: 0.8
+  });
+  this.download = 'canvas.png'
+}
+
+const imgPdf = document.getElementById('btn-download');
+imgPdf.addEventListener('click', saveImage, false);
 
 
 
 
 
+// imgPdf.addEventListener('click', () => { 
+  
+//   //let imgData = canvas.toDataURL("image/jpeg", 1.0); generates crossorigin errror
+  
+//   let imgData = restoreCanvas(canvas, svgState); //working but restrores the canvas as svg
+//   const doc = new jsPDF("p", "px", "a4");
+//   svg2pdf(imgData, doc, {
+//     xOffset: 0,
+// 	  yOffset: 0,
+// 	  scale: 1
+//   });
+//   doc.save('card.pdf');
 
 
-
-
-
-
-
-// const imgInput = document.getElementById("imgInput");
-// const canvas = document.getElementById("card-canvas");
-// const canvasCtx = canvas.getContext('2d');
-
-// let activeImage;
-
-// imgInput.addEventListener("change", (e) => {
-//     if(e.target.files) {
-//         const reader = new FileReader();
-//         reader.addEventListener("load", () => {
-//             openImage(reader.result);
-//         });
-//     reader.readAsDataURL(e.target.files[0]);
-//     }
+//   // var pdf = new jsPDF();
+//   // pdf.addImage(imgData, 0, 0);
+  
+//   // pdf.save("card.pdf");
 // });
 
-// function openImage(imageSrc) {
-//   activeImage = new Image();
-//   activeImage.src = imageSrc;
-//   activeImage.addEventListener("load", () => {
-//     canvasCtx.drawImage(activeImage, 0, 0);
-//   });
-// }
+const canvas = initCanvas('card-canvas');
+setBackground(bgUrl, canvas);
