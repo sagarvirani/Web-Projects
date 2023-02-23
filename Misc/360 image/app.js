@@ -1,7 +1,9 @@
-setInterval(rotate360,100);
+const range = document.getElementById("range");    
+const main_img = document.getElementById("main");
 
-function rotate360() {
-    var range = document.getElementById('range').value;
-    var main_img = document.getElementById('main');
-    main_img.innerHTML = '<img src="images/'+range+'.jpg">'
-}
+console.log(range, main_img);
+
+range.addEventListener('input', (event)=> {
+    //console.log(event.target.value); 
+    main_img.innerHTML = '<img src="images/'+event.target.value+'.jpg">'
+});
